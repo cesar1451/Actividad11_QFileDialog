@@ -20,10 +20,26 @@ class AdminParticula:
             str(particula) + '\n' for particula in self.__lista
         )
     
+    def __len__(self): #sobrecargar len
+        return len(self.__lista)
+    
+    def __iter__(self):  #Retornar contador 
+        self.cont = 0
+        
+        return self
+    
+    def __next__(self): #Iterar sobre la lista para retornar un objeto particula
+        if self.cont < len(self.__lista):
+            particula = self.__lista[self.cont]
+            self.cont += 1 
+            return particula #Retornar una particula
+        else:
+            raise StopIteration #Mandar una exepción
+    
     def guardar(self, ubicacion):
         try: #validar que se pudo hacer 
             with open(ubicacion, 'w') as archivo: #Escribir en el archivo
-                lista = [par.to_dic() for par in self.__lista]
+                lista = [par.to_dict() for par in self.__lista]
                 #print(lista)
                 json.dump(lista, archivo, indent=5) #Conversión al archivo json
             return 1

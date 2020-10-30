@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
 from PySide2.QtCore import Slot #Identificar cuando se ejecute el evento del boton
 from ui_mainwindow import Ui_MainWindow #Importar libreria de la interfaz del designer en .py
 from Actividad09_Particulas.particula import Particula
@@ -21,7 +21,78 @@ class MainWindow(QMainWindow):
         self.ui.actionAbrir.triggered.connect(self.action_abrir_archivo)
         self.ui.actionGuardar.triggered.connect(self.action_guardar_archivo)
         
-
+        #Conexión a botones tabla
+        self.ui.mostrar_tabla_pushButton.clicked.connect(self.action_mostrar_tabla)
+        self.ui.buscar_pushButton.clicked.connect(self.action_buscar_id)
+      
+    @Slot()  
+    def action_buscar_id(self):        
+        busca_id = self.ui.buscar_lineEdit.text() #Obtener el texto del lineEdit
+        if(len(busca_id) > 0):
+            busca_id = int(busca_id)
+        
+        encontrado = False
+        for particula in self.particulas:
+            if busca_id == particula.id:
+                self.ui.table.clear() #Limpiar tabla
+                self.table_add_column()
+                self.ui.table.setRowCount(1)
+                
+                self.table_widget(0, particula)
+                
+                encontrado = True
+                return              
+    
+        if not encontrado:
+            QMessageBox.warning(
+                self, 
+                "Atención",
+                f'La partícula con el id "{busca_id}" no fue encontrada'
+            )
+        
+    @Slot()
+    def action_mostrar_tabla(self):
+        self.table_add_column()
+        self.ui.table.setRowCount(len(self.particulas)) #Agregar filas a la tabla
+        
+        row = 0 #Contador de filas
+        for particula in self.particulas:
+            self.table_widget(row, particula)
+            row += 1
+     
+    def table_widget(self, row, particula:Particula):
+        #construcción de Widgets
+        id_widget = QTableWidgetItem(str(particula.id))
+        origen_x_widget = QTableWidgetItem(str(particula.origen_x))
+        origen_y_widget = QTableWidgetItem(str(particula.origen_y))
+        destino_x_widget = QTableWidgetItem(str(particula.destino_x))
+        destino_y_widget = QTableWidgetItem(str(particula.destino_y))
+        velocidad_widget = QTableWidgetItem(str(particula.velocidad))
+        red_widget = QTableWidgetItem(str(particula.red))
+        green_widget = QTableWidgetItem(str(particula.green))
+        blue_widget = QTableWidgetItem(str(particula.blue))
+        distancia_widget = QTableWidgetItem(str(particula.distancia))
+            
+        #Ingresar información en la tabla
+        self.ui.table.setItem(row, 0, id_widget)
+        self.ui.table.setItem(row, 1, origen_x_widget)
+        self.ui.table.setItem(row, 2, origen_y_widget)
+        self.ui.table.setItem(row, 3, destino_x_widget)
+        self.ui.table.setItem(row, 4, destino_y_widget)
+        self.ui.table.setItem(row, 5, velocidad_widget)
+        self.ui.table.setItem(row, 6, red_widget)
+        self.ui.table.setItem(row, 7, green_widget)
+        self.ui.table.setItem(row, 8, blue_widget)
+        self.ui.table.setItem(row, 9, distancia_widget)
+            
+        
+    def table_add_column(self):
+        self.ui.table.setColumnCount(10) #Generar columnas en la tabla
+        #Nombre de los headers en una lista
+        headers = ["Id", "Origen x", "Origen y", "Destino x", "Destino y", "Velocidad", "Red", "Green", "Blue", "Distancia"]
+        self.ui.table.setHorizontalHeaderLabels(headers) #Ingresar el nombre de las columnas
+        
+        
     @Slot()
     def action_abrir_archivo(self):  
         #print("Abrir archivo")
