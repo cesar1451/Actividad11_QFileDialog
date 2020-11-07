@@ -1,8 +1,10 @@
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem, QGraphicsScene
+from PySide2.QtGui import QPen, QColor, QTransform
 from PySide2.QtCore import Slot #Identificar cuando se ejecute el evento del boton
 from ui_mainwindow import Ui_MainWindow #Importar libreria de la interfaz del designer en .py
 from Actividad09_Particulas.particula import Particula
 from Actividad09_Particulas.adminparticula import AdminParticula
+#from random import randint
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -24,7 +26,46 @@ class MainWindow(QMainWindow):
         #Conexión a botones tabla
         self.ui.mostrar_tabla_pushButton.clicked.connect(self.action_mostrar_tabla)
         self.ui.buscar_pushButton.clicked.connect(self.action_buscar_id)
-      
+        
+        #Conexión a botones dibujar
+        self.ui.draw_pushButton.clicked.connect(self.action_dibujar)
+        self.ui.clear_pushButton.clicked.connect(self.action_limpiar)
+        
+        #Crear Escena
+        self.scene = QGraphicsScene() #Crear escena
+        self.ui.graphicsView.setScene(self.scene) #Insertar scene
+    
+    def wheelEvent(self, event):
+        if event.delta() > 0:
+            self.ui.graphicsView.scale(1.2, 1.2)
+        else:
+            self.ui.graphicsView.scale(0.8, 0.8)    
+        
+    @Slot()
+    def action_dibujar(self):
+        if len(self.particulas) > 0:
+            pen = QPen() #Definir una pluma
+            pen.setWidth(1) #Tamaño en pixelex del ancho de la pluma
+            #Ingresar el color
+            for particula in self.particulas:
+                color = QColor(particula.red, particula.green, particula.blue)
+                pen.setColor(color)
+                
+                self.scene.addEllipse(particula.origen_x, particula.origen_y, 3, 3, pen) #Dibujar un elipse -> (0, 0, 3, 3) ->posX, posY, radio, radio
+                self.scene.addEllipse(particula.destino_x, particula.destino_y, 3, 3, pen)
+                self.scene.addLine(particula.origen_x+3, particula.origen_y+3, particula.destino_x, particula.destino_y, pen) #Agregar linea entre los dos elipses
+                
+        else:
+            QMessageBox.warning(
+                self, 
+                "Atención",
+                'No hay partículas registradas'
+            )
+                
+    @Slot()
+    def action_limpiar(self):
+        self.scene.clear()
+    
     @Slot()  
     def action_buscar_id(self):        
         busca_id = self.ui.buscar_lineEdit.text() #Obtener el texto del lineEdit
