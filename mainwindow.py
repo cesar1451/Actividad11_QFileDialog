@@ -45,7 +45,7 @@ class MainWindow(QMainWindow):
     def action_dibujar(self):
         if len(self.particulas) > 0:
             pen = QPen() #Definir una pluma
-            pen.setWidth(1) #Tamaño en pixelex del ancho de la pluma
+            pen.setWidth(2) #Tamaño en pixelex del ancho de la pluma
             #Ingresar el color
             for particula in self.particulas:
                 color = QColor(particula.red, particula.green, particula.blue)
