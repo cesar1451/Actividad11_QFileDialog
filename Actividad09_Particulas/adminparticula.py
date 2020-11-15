@@ -14,6 +14,15 @@ class AdminParticula:
     def mostrar(self):
         for particula in self.__lista:
             print(particula)
+    
+    def sort_id(self):
+        self.__lista.sort()
+    
+    def sort_distancia(self):
+        self.__lista.sort(key=lambda particula: particula.distancia, reverse=True)
+        
+    def sort_velocidad(self):
+        self.__lista.sort(key=lambda particula: particula.velocidad)
             
     def __str__(self):
         return "".join(

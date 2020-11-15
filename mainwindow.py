@@ -34,7 +34,28 @@ class MainWindow(QMainWindow):
         #Crear Escena
         self.scene = QGraphicsScene() #Crear escena
         self.ui.graphicsView.setScene(self.scene) #Insertar scene
+        
+        #Button sort Plane and Edit
+        self.ui.sort_plane_pushButton.clicked.connect(self.action_sort_plane)
     
+    #Odenamientos sort()
+    @Slot()
+    def action_sort_plane(self):
+        if self.ui.desicion_plane_comboBox.currentText() == "Id (ascendente)":
+            self.particulas.sort_id()
+        elif self.ui.desicion_plane_comboBox.currentText() == "Distancia (descendente)":
+            self.particulas.sort_distancia()
+        elif self.ui.desicion_plane_comboBox.currentText() == "Velocidad (ascendente)":
+            self.particulas.sort_velocidad()
+        else:
+            return -1
+        if len(self.particulas) > 0:
+            QMessageBox.information(
+                    self,
+                    "Éxito",
+                    "Se ordeno con éxito"
+                )
+        
     def wheelEvent(self, event):
         if event.delta() > 0:
             self.ui.graphicsView.scale(1.2, 1.2)

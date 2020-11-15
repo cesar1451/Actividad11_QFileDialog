@@ -29,6 +29,10 @@ class Particula:
             'Distancia: ' + str(self.__distancia) + '\n'
         )
     
+    #Método para sobrecargar la función sort()
+    def __lt__(self, other):
+        return self.__id < other.__id
+    
     #Métodos de Interfaz
     @property
     def id(self):
@@ -82,3 +86,6 @@ class Particula:
             "green": self.__green,
             "blue": self.__blue 
         }
+
+    
+    
