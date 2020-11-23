@@ -1,9 +1,12 @@
 from .particula import Particula
 import json
+from pprint import pprint, pformat
 
 class AdminParticula:
     def __init__(self):
         self.__lista = []
+        self.__grafo = {}
+        self.__bandera = False
         
     def agregar_inicio(self, particula:Particula):
         self.__lista.insert(0, particula)
@@ -63,6 +66,31 @@ class AdminParticula:
             return 1
         except:
             return 0
+    
+    def get_grafo(self):
+        grafo = pformat(self.__grafo, indent=1)
+        #print(grafo)
+        return grafo
+    
+    def mandar_particulas_grafo(self):
+        if not self.__bandera:
+            for particula in self.__lista:
+                self.insertar_grafo(particula)
+                self.__bandera = True
+    
+    def insertar_grafo(self, particula:Particula):
+        origen = (particula.origen_x, particula.origen_y)
+        destino = (particula.destino_x, particula.destino_y)
+
+        if origen in self.__grafo:
+            self.__grafo[origen].append((particula.destino_x, particula.destino_y, particula.distancia))
+        else:
+            self.__grafo[origen] = [(particula.destino_x, particula.destino_y, particula.distancia)]
+        if destino in self.__grafo:
+            self.__grafo[destino].append((particula.origen_x, particula.origen_y, particula.distancia))
+        else:
+            self.__grafo[destino] = [(particula.origen_x, particula.origen_y, particula.distancia)]
+        
 
 '''
 p01 = Particula(1, 21, 15, 11, 5, 60, 100, 0, 255, 211.7)

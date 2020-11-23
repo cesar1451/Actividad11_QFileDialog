@@ -74,7 +74,7 @@ class MainWindow(QMainWindow):
                 
                 self.scene.addEllipse(particula.origen_x, particula.origen_y, 3, 3, pen) #Dibujar un elipse -> (0, 0, 3, 3) ->posX, posY, radio, radio
                 self.scene.addEllipse(particula.destino_x, particula.destino_y, 3, 3, pen)
-                self.scene.addLine(particula.origen_x+3, particula.origen_y+3, particula.destino_x, particula.destino_y, pen) #Agregar linea entre los dos elipses
+                self.scene.addLine(particula.origen_x, particula.origen_y, particula.destino_x, particula.destino_y, pen) #Agregar linea entre los dos elipses
                 
         else:
             QMessageBox.warning(
@@ -86,6 +86,8 @@ class MainWindow(QMainWindow):
     @Slot()
     def action_limpiar(self):
         self.scene.clear()
+        #Reestablecer la escala al predeterminado
+        self.ui.graphicsView.setTransform(QTransform())
     
     @Slot()  
     def action_buscar_id(self):        
@@ -176,6 +178,7 @@ class MainWindow(QMainWindow):
                 "Error",
                 "Error al abrir el archivo " + ubicacion
             )
+            
     @Slot()
     def action_guardar_archivo(self):
         #print('Guardar Archivo')
@@ -239,3 +242,6 @@ class MainWindow(QMainWindow):
     def mostrar(self):
         self.ui.salida.clear()
         self.ui.salida.insertPlainText(str(self.particulas))
+        self.particulas.mandar_particulas_grafo()
+        self.ui.salida_plainTextEdit.clear()        
+        self.ui.salida_plainTextEdit.insertPlainText(self.particulas.get_grafo())
