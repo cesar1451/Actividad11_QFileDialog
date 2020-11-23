@@ -242,8 +242,8 @@ class MainWindow(QMainWindow):
     def mostrar(self):
         self.ui.salida.clear()
         self.ui.salida.insertPlainText(str(self.particulas))
-        self.particulas.mandar_particulas_grafo()
         #Grafo
+        self.particulas.mandar_particulas_grafo()
         self.ui.salida_plainTextEdit.clear()    
         self.ui.salida_plainTextEdit.insertPlainText(self.particulas.get_grafo())
         print(self.particulas.get_grafo())    
