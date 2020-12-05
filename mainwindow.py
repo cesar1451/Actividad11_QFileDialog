@@ -4,6 +4,8 @@ from PySide2.QtCore import Slot #Identificar cuando se ejecute el evento del bot
 from ui_mainwindow import Ui_MainWindow #Importar libreria de la interfaz del designer en .py
 from Actividad09_Particulas.particula import Particula
 from Actividad09_Particulas.adminparticula import AdminParticula
+from Actividad09_Particulas.algoritmos import busqueda_profundidad, busqueda_amplitud
+#from pprint import pprint, pformat
 #from random import randint
 
 class MainWindow(QMainWindow):
@@ -37,6 +39,49 @@ class MainWindow(QMainWindow):
         
         #Button sort Plane and Edit
         self.ui.sort_plane_pushButton.clicked.connect(self.action_sort_plane)
+        
+        #Button Busquedas en profundidad y en anchura
+        self.ui.busqueda_grafo_pushButton.clicked.connect(self.action_busqueda_grafo)
+    
+    #Busqueda en grafo profundidad y anchura
+    @Slot()
+    def action_busqueda_grafo(self):
+        grafo = self.particulas.get_grafo()     
+        print("Grafo: ", grafo)
+        listAux = list(grafo.keys())
+        arista_x = self.ui.nodo_x_spinBox.value()
+        arista_y = self.ui.nodo_y_spinBox.value()
+        profundidad = False
+        if arista_x == 0 and arista_y == 0:
+            if self.ui.tipo_busqueda_comboBox.currentText() == "Profundidad":
+                recorrido_grafo = busqueda_profundidad(grafo, listAux[0])
+                profundidad = True
+            elif self.ui.tipo_busqueda_comboBox.currentText() == "Anchura":
+                recorrido_grafo = busqueda_amplitud(grafo, listAux[0])
+            else:
+                return -1
+        else:
+            origen = (arista_x, arista_y)
+            if self.ui.tipo_busqueda_comboBox.currentText() == "Profundidad":
+                recorrido_grafo = busqueda_profundidad(grafo, origen)
+                profundidad = True
+            elif self.ui.tipo_busqueda_comboBox.currentText() == "Anchura":
+                recorrido_grafo = busqueda_amplitud(grafo, origen)
+            else:
+                return -1
+        
+        self.ui.mostrar_grafo_plainTextEdit.clear()
+        if profundidad:
+            self.ui.mostrar_grafo_plainTextEdit.insertPlainText("Profundidad: \n")
+        else:
+            self.ui.mostrar_grafo_plainTextEdit.insertPlainText("Anchura: \n")
+        
+        for i in recorrido_grafo:
+            self.ui.mostrar_grafo_plainTextEdit.insertPlainText(str(i))
+            self.ui.mostrar_grafo_plainTextEdit.insertPlainText("\n")
+        
+        #self.ui.mostrar_grafo_plainTextEdit.insertPlainText(pformat(recorrido_grafo, width=20))
+        #print(recorrido_grafo)
     
     #Odenamientos sort()
     @Slot()
@@ -167,6 +212,7 @@ class MainWindow(QMainWindow):
             'JSON (*.json)'
         )[0] 
         if self.particulas.abrir(ubicacion):
+            self.particulas.mandar_particulas_grafo()
             QMessageBox.information(
                 self,
                 "Éxito",
@@ -242,8 +288,6 @@ class MainWindow(QMainWindow):
     def mostrar(self):
         self.ui.salida.clear()
         self.ui.salida.insertPlainText(str(self.particulas))
-        #Grafo
-        self.particulas.mandar_particulas_grafo()
         self.ui.salida_plainTextEdit.clear()    
-        self.ui.salida_plainTextEdit.insertPlainText(self.particulas.get_grafo())
-        print(self.particulas.get_grafo())    
+        self.ui.salida_plainTextEdit.insertPlainText(self.particulas.mostrar_grafo())
+        print("Grafo: ", self.particulas.mostrar_grafo())    

@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(675, 670)
+        MainWindow.resize(675, 671)
         self.actionAbrir = QAction(MainWindow)
         self.actionAbrir.setObjectName(u"actionAbrir")
         font = QFont()
@@ -287,6 +287,61 @@ class Ui_MainWindow(object):
         self.gridLayout_6.addWidget(self.clear_pushButton, 1, 1, 1, 1)
 
         self.tabWidget.addTab(self.tab_3, "")
+        self.tab_4 = QWidget()
+        self.tab_4.setObjectName(u"tab_4")
+        self.gridLayout_9 = QGridLayout(self.tab_4)
+        self.gridLayout_9.setObjectName(u"gridLayout_9")
+        self.groupBox_4 = QGroupBox(self.tab_4)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.gridLayout_8 = QGridLayout(self.groupBox_4)
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.nodo_x_spinBox = QSpinBox(self.groupBox_4)
+        self.nodo_x_spinBox.setObjectName(u"nodo_x_spinBox")
+        self.nodo_x_spinBox.setMaximum(999999999)
+
+        self.gridLayout_8.addWidget(self.nodo_x_spinBox, 2, 1, 1, 1)
+
+        self.tipo_busqueda_comboBox = QComboBox(self.groupBox_4)
+        self.tipo_busqueda_comboBox.addItem("")
+        self.tipo_busqueda_comboBox.addItem("")
+        self.tipo_busqueda_comboBox.setObjectName(u"tipo_busqueda_comboBox")
+
+        self.gridLayout_8.addWidget(self.tipo_busqueda_comboBox, 2, 4, 1, 1)
+
+        self.label_7 = QLabel(self.groupBox_4)
+        self.label_7.setObjectName(u"label_7")
+
+        self.gridLayout_8.addWidget(self.label_7, 2, 2, 1, 1)
+
+        self.busqueda_grafo_pushButton = QPushButton(self.groupBox_4)
+        self.busqueda_grafo_pushButton.setObjectName(u"busqueda_grafo_pushButton")
+
+        self.gridLayout_8.addWidget(self.busqueda_grafo_pushButton, 2, 5, 1, 1)
+
+        self.nodo_y_spinBox = QSpinBox(self.groupBox_4)
+        self.nodo_y_spinBox.setObjectName(u"nodo_y_spinBox")
+        self.nodo_y_spinBox.setMaximum(999999999)
+
+        self.gridLayout_8.addWidget(self.nodo_y_spinBox, 2, 3, 1, 1)
+
+        self.label_11 = QLabel(self.groupBox_4)
+        self.label_11.setObjectName(u"label_11")
+
+        self.gridLayout_8.addWidget(self.label_11, 2, 0, 1, 1)
+
+        self.mostrar_grafo_plainTextEdit = QPlainTextEdit(self.groupBox_4)
+        self.mostrar_grafo_plainTextEdit.setObjectName(u"mostrar_grafo_plainTextEdit")
+        font2 = QFont()
+        font2.setFamily(u"Arial")
+        font2.setPointSize(16)
+        self.mostrar_grafo_plainTextEdit.setFont(font2)
+
+        self.gridLayout_8.addWidget(self.mostrar_grafo_plainTextEdit, 0, 0, 1, 6)
+
+
+        self.gridLayout_9.addWidget(self.groupBox_4, 0, 0, 1, 1)
+
+        self.tabWidget.addTab(self.tab_4, "")
 
         self.gridLayout_4.addWidget(self.tabWidget, 0, 0, 1, 1)
 
@@ -300,6 +355,7 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        QWidget.setTabOrder(self.tabWidget, self.id_spinBox)
         QWidget.setTabOrder(self.id_spinBox, self.origenx_spinBox)
         QWidget.setTabOrder(self.origenx_spinBox, self.origeny_spinBox)
         QWidget.setTabOrder(self.origeny_spinBox, self.destinox_spinBox)
@@ -310,11 +366,11 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.green_spinBox, self.blue_spinBox)
         QWidget.setTabOrder(self.blue_spinBox, self.agregar_inicio_pushButton)
         QWidget.setTabOrder(self.agregar_inicio_pushButton, self.agregar_final_pushButton)
-        QWidget.setTabOrder(self.agregar_final_pushButton, self.salida_plainTextEdit)
-        QWidget.setTabOrder(self.salida_plainTextEdit, self.sort_plane_pushButton)
+        QWidget.setTabOrder(self.agregar_final_pushButton, self.sort_plane_pushButton)
         QWidget.setTabOrder(self.sort_plane_pushButton, self.desicion_plane_comboBox)
         QWidget.setTabOrder(self.desicion_plane_comboBox, self.mostrar_pushButton)
-        QWidget.setTabOrder(self.mostrar_pushButton, self.salida)
+        QWidget.setTabOrder(self.mostrar_pushButton, self.salida_plainTextEdit)
+        QWidget.setTabOrder(self.salida_plainTextEdit, self.salida)
         QWidget.setTabOrder(self.salida, self.buscar_lineEdit)
         QWidget.setTabOrder(self.buscar_lineEdit, self.buscar_pushButton)
         QWidget.setTabOrder(self.buscar_pushButton, self.mostrar_tabla_pushButton)
@@ -322,7 +378,9 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.table, self.draw_pushButton)
         QWidget.setTabOrder(self.draw_pushButton, self.clear_pushButton)
         QWidget.setTabOrder(self.clear_pushButton, self.graphicsView)
-        QWidget.setTabOrder(self.graphicsView, self.tabWidget)
+        QWidget.setTabOrder(self.graphicsView, self.tipo_busqueda_comboBox)
+        QWidget.setTabOrder(self.tipo_busqueda_comboBox, self.busqueda_grafo_pushButton)
+        QWidget.setTabOrder(self.busqueda_grafo_pushButton, self.mostrar_grafo_plainTextEdit)
 
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menuArchivo.addSeparator()
@@ -376,6 +434,14 @@ class Ui_MainWindow(object):
         self.draw_pushButton.setText(QCoreApplication.translate("MainWindow", u"Dibujar", None))
         self.clear_pushButton.setText(QCoreApplication.translate("MainWindow", u"Limpiar", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Dibujar", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"B\u00fasqueda", None))
+        self.tipo_busqueda_comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Profundidad", None))
+        self.tipo_busqueda_comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Anchura", None))
+
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Arista origen y:", None))
+        self.busqueda_grafo_pushButton.setText(QCoreApplication.translate("MainWindow", u"B\u00fasqueda", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Arista origen x:", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Grafo", None))
         self.menuArchivo.setTitle(QCoreApplication.translate("MainWindow", u"Archivo", None))
     # retranslateUi
 

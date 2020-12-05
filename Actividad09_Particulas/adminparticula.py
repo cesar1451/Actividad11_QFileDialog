@@ -62,12 +62,13 @@ class AdminParticula:
             with open(ubicacion, 'r') as archivo:
                 lista = json.load(archivo) #Cargar los datos del archivo en la lista 
                 self.__lista = [Particula(**par) for par in lista] # ** decirle que convierta 
-                #los parametros del diccionario a parametros validos con ayuda del constructor
             return 1
         except:
             return 0
-    
     def get_grafo(self):
+        return self.__grafo
+    
+    def mostrar_grafo(self):
         grafo = pformat(self.__grafo, indent=1)
         #print(grafo)
         return grafo
