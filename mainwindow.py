@@ -47,7 +47,6 @@ class MainWindow(QMainWindow):
     @Slot()
     def action_busqueda_grafo(self):
         grafo = self.particulas.get_grafo()     
-        print("Grafo: ", grafo)
         listAux = list(grafo.keys())
         arista_x = self.ui.nodo_x_spinBox.value()
         arista_y = self.ui.nodo_y_spinBox.value()
